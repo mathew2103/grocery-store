@@ -6,14 +6,25 @@ import time
 
 password = "mathew21"
 
+# ---------------- Utility Functions ----------------------
+
+def clear_frame(x = None):
+    if x:
+        print("x")
+        for widgets in x.winfo_children():
+            widgets.destroy()
+    else:
+        for widgets in m.winfo_children():
+            widgets.destroy()
+      
 def get_data():
     with open('items.pkl', 'rb') as fp:
         try:
             items = pickle.load(fp)
-            print(items)
         except EOFError:
             return []
         return items
+
     
 def format_data(items):
     
@@ -24,6 +35,7 @@ def format_data(items):
         items[i] = item
     return items
 
+# ---------------- User Interface ----------------------
 
 def prompt(sleep = True):
     if sleep:
@@ -75,10 +87,13 @@ def login():
         print("❌ Access Denied")
 
 
+# ---------------- OLD Admin Functions ----------------------
+
 def getInfo():
     x = int(input("Enter ID of item: "))
-    items = format_data(get_data())
+    item = format_data(get_data())
     item = [items[x-1]]
+
     print(tabulate(item, headers=["ID","Name","Cost","Stock"]))
     prompt()
 
@@ -93,8 +108,8 @@ def addItems():
     for i in range(x):
         print(f"Item {i+1}/{x}")
         name = input("Enter name of item: ")
-        cost = input("Enter cost of item: ")
-        stock = input("Enter available stock: ")
+        cost = int(input("Enter cost of item: "))
+        stock = int(input("Enter available stock: "))
         print(" ")
         l.append([name, cost, stock])
         
